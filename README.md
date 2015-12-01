@@ -2,6 +2,7 @@
 **A cli tool to get latest KZT (tenge) exchange rates**
 
 [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url]
+
 [![NodeICO][nodeico-image]][nodeico-url]
 
 ## Installation
