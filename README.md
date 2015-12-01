@@ -5,6 +5,8 @@
 
 [![NodeICO][nodeico-image]][nodeico-url]
 
+<img width="500" alt="kzt demo" src="demo.gif"/>
+
 ## Installation
 
 ``` bash
