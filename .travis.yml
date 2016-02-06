@@ -1,5 +1,5 @@
 sudo: false
-anguage: node_js
+language: node_js
 node_js:
   - 4.0
   - 4
