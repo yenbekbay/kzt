@@ -16,13 +16,17 @@
 ## Usage
 
 ```bash
-kzt [-h] [-c {"USD", "EUR", "RUB", "GBP"}] [-a]
+kzt [-h] [-c {"USD", "EUR", "RUB"}] [-a]
 
 Options:
-  --currencies, -c  choose the currencies to display KZT exchange rates for
-                          [choices: "USD", "EUR", "RUB", "GBP"] [default: "USD"]
-  --all, -a         display all KZT exchange rates                     [boolean]
-  --help            Show help                                          [boolean]
+  -c, --currencies  choose the currencies to display KZT exchange rates for
+           [array] [choices: "USD", "EUR", "RUB"] [default: ["USD","EUR","RUB"]]
+  -a, --all         display KZT exchange rates from all sources        [boolean]
+  -h, --help        Show help                                          [boolean]
+
+Examples:
+  kzt -a -c USD   display exchange rates to USD from all sources
+  kzt -c USD EUR  display average exchange rates to USD and EUR
 ```
 
 ## The MIT License
