@@ -3,9 +3,11 @@
 'use strict';
 
 const Table = require('cli-table2');
+const updateNotifier = require('update-notifier');
 
 const Logger = require('./logger');
 const Scraper = require('./scraper');
+const pkg = require('../package.json');
 
 const argv = require('yargs')
   .usage('kzt [-h] [-c {"USD", "EUR", "RUB"}] [-a]')
@@ -31,6 +33,7 @@ const scraper = new Scraper(logger);
 const currencies = argv.currencies;
 const displayAllSources = argv.all;
 
+updateNotifier({ pkg }).notify();
 logger.startSpinner('Getting latest exchange rates');
 
 scraper
