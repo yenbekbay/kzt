@@ -31,10 +31,17 @@ class Scraper {
 
               let rate = { currency: columns[0] };
               if (columns[1]) {
-                rate.buy = this.constructor._extractRate(columns[1]);
+                const key = columns.length === 2 ? 'weighted' : 'buy';
+                const price = this.constructor._extractRate(columns[1]);
+                if (price) {
+                  rate[key] = parseFloat(price);
+                }
               }
               if (columns[2]) {
-                rate.sell = this.constructor._extractRate(columns[2]);
+                const sell = this.constructor._extractRate(columns[2]);
+                if (sell) {
+                  rate.sell = parseFloat(sell);
+                }
               }
 
               return rate;
