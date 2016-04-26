@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 
-const Scraper = require('../lib/scraper');
+const Scraper = require('../src/scraper');
 
 let scraper;
 
