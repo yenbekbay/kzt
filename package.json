@@ -2,10 +2,10 @@
   "name": "kzt",
   "version": "0.2.0",
   "description": "A cli tool to get latest KZT (tenge) exchange rates",
-  "main": "./lib/kzt.js",
+  "main": "./lib/index.js",
   "preferGlobal": "true",
   "bin": {
-    "kzt": "./lib/kzt.js"
+    "kzt": "./lib/index.js"
   },
   "scripts": {
     "test": "mocha test/"
