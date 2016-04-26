@@ -1,7 +1,7 @@
 # kzt
 **A cli tool to get latest KZT (tenge) exchange rates**
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url]  [![Dependency Status][daviddm-image]][daviddm-url]
 
 [![NodeICO][nodeico-image]][nodeico-url]
 
@@ -57,6 +57,9 @@ THE SOFTWARE.
 
 [travis-url]: https://travis-ci.org/yenbekbay/kzt
 [travis-image]: https://img.shields.io/travis/yenbekbay/kzt.svg
+
+[daviddm-image]: https://david-dm.org/yenbekbay/kzt.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/yenbekbay/kzt
 
 [nodeico-url]: https://nodei.co/npm/kzt
 [nodeico-image]: https://nodei.co/npm/kzt.png?downloads=true&downloadRank=true
