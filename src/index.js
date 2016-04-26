@@ -33,15 +33,26 @@ scraper
     logger.stopSpinner();
     console.log('Exchange rates for KZT (tenge):');
 
-    let table = new Table({
-      head: ['', 'Buy', 'Sell']
+    rates.forEach(source => {
+      const colSpan = source.rates
+        .map(rate => rate.sell)
+        .filter(price => !!price).length > 0 ? 3 : 2;
+      const table = new Table({
+        head: [{ hAlign: 'center', colSpan: colSpan, content: source.title }]
+      });
+      table.push(colSpan === 2
+        ? ['Currency', 'Weighted']
+        : ['Currency', 'Buy', 'Sell']
+      );
+
+      source.rates.forEach(rate => {
+        table.push(
+          [rate.currency, rate.buy, rate.sell].filter(column => !!column)
+        );
+      });
+
+      console.log(table.toString());
     });
-    rates.forEach(rate => {
-      if (currencies.indexOf(rate.currency) > -1) {
-        table.push([rate.currency, rate.buy, rate.sell]);
-      }
-    });
-    console.log(table.toString());
 
     process.exit();
   }, err => {

@@ -7,71 +7,65 @@ const Rx = require('rx-lite');
 const Logger = require('./logger');
 const Package = require('../package.json');
 
-const KKB_EXCHANGE_RATES_URL = 'http://ru.kkb.kz/page/RatesConverting';
-
 class Scraper {
   constructor(logger) {
     this.logger = logger;
+    this.request = request.defaults({
+      headers: { 'User-Agent': 'kzt v' + Package.version },
+      gzip: true
+    });
   }
 
   getRates() {
     return this
-      .loadUrl(KKB_EXCHANGE_RATES_URL)
+      ._getBody()
       .map(body => cheerio.load(body))
-      .map($ => $('.tbl_text2')
-        .first().children()
-        .last().children()
-        .get()
-        .map(rate => {
-          let currency = $(rate).children().first().children().first().text();
-          if (currency.indexOf('KZT') > -1) {
-            return {
-              currency: currency.substring(0, 3),
-              buy: parseFloat($(rate).children().first().next().text()),
-              sell: parseFloat($(rate).children().last().text())
-            };
-          } else {
-            return;
-          }
-        })
-        .filter(rate => rate !== undefined));
+      .map($ => $('.container[role="main"] > .row > div > table').get()
+        .map(sourceNode => ({
+          title: $(sourceNode).find('thead th').text(),
+          rates: $(sourceNode).find('tbody > tr').get()
+            .map(rateNode => {
+              const columns = $(rateNode)
+                .children().get()
+                .map(columnNode => $(columnNode).text().trim());
+
+              let rate = { currency: columns[0] };
+              if (columns[1]) {
+                rate.buy = this.constructor._extractRate(columns[1]);
+              }
+              if (columns[2]) {
+                rate.sell = this.constructor._extractRate(columns[2]);
+              }
+
+              return rate;
+            })
+        }))
+        .filter(source => {
+          return !!source.title && !!source.rates && source.rates.length > 0;
+        }));
   }
 
-  loadUrl(url) {
-    const self = this;
-
-    const options = {
-      url: url,
-      headers: {
-        'User-Agent': 'kzt v' + Package.version
-      },
-      gzip: true,
-      encoding: null
-    };
-
-    const observable = Rx.Observable.create(observer => {
-      request(options, (err, response, body) => {
-        if (!err && response.statusCode === 200) {
-          observer.onNext(body);
-          observer.onCompleted();
-        } else if (err) {
-          observer.onError(err);
-        } else {
-          observer.onError(Error('Status code ' + response.statusCode));
-        }
-      });
-    });
-
+  _getBody() {
     let errorCount = 0;
 
-    return observable
+    return Rx.Observable
+      .fromNodeCallback(this.request)('https://xn--80aae1b9a9d.kz')
+      .map(result => ({ response: result[0], body: result[1] }))
+      .flatMap(result => {
+        if (result.response.statusCode !== 200) {
+          return Rx.Observable
+            .throw(new Error(`Status code ${result.response.statusCode}`));
+        } else {
+          return Rx.Observable.return(result.body);
+        }
+      })
       .catch(err => {
         errorCount++;
 
         const delay = Math.round(Math.pow(errorCount, 1.5)) * 1000;
 
-        self.logger.warning('Failed to load ' + url + '. Retrying in ' +
-          delay / 1000 + ' seconds');
+        this.logger.warning('Failed to get the rates. ' +
+          `Retrying in ${delay / 1000} seconds`);
 
         return Rx.Observable
           .empty()
@@ -79,6 +73,12 @@ class Scraper {
           .concat(Rx.Observable.throw(err));
       })
       .retry(3);
+  }
+
+  static _extractRate(str) {
+    return (str
+      .replace(/,/g, '.')
+      .match(/^(\d+\.\d+).*/) || [])[1];
   }
 }
 
