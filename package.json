@@ -30,9 +30,9 @@
   },
   "dependencies": {
     "cheerio": "^0.20.0",
-    "cli-spinner": "^0.2.4",
     "cli-table2": "^0.2.0",
     "colors": "^1.1.2",
+    "ora": "^0.2.1",
     "request": "^2.69.0",
     "rx-lite": "^4.0.7",
     "yargs": "^4.6.0"
