@@ -8,6 +8,7 @@ const Logger = require('./logger');
 const Scraper = require('./scraper');
 
 const argv = require('yargs')
+  .usage('kzt [-h] [-c {"USD", "EUR", "RUB"}] [-a]')
   .option('c', {
     alias: 'currencies',
     describe: 'choose the currencies to display KZT exchange rates for',
