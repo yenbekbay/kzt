@@ -4,7 +4,6 @@ const cheerio = require('cheerio');
 const request = require('request');
 const Rx = require('rx-lite');
 
-const Logger = require('./logger');
 const Package = require('../package.json');
 
 class Scraper {

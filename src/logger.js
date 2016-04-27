@@ -1,7 +1,7 @@
 'use strict';
 
-const colors = require('colors');
 const ora = require('ora');
+require('colors');
 
 class Logger {
   startSpinner(message) {
