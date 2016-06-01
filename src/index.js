@@ -51,8 +51,6 @@ scraper
     } else {
       console.log(formatter.tableForAverageRates().toString());
     }
-
-    process.exit();
   }, err => {
     logger.stopSpinner();
     logger.error('Something went wrong while loading: ' + err.message);
