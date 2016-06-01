@@ -1,6 +1,6 @@
 {
   "name": "kzt",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A cli tool to get latest KZT (tenge) exchange rates",
   "main": "./src/index.js",
   "preferGlobal": "true",
