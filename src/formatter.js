@@ -1,6 +1,6 @@
 'use strict';
 
-const Table = require('cli-table2');
+const Table = require('cli-table3');
 
 class Formatter {
   constructor(rates, currencies) {
